@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Contribution Painter</title>
+    <style>
+        body { 
+            background: #0d1117; 
+            color: #c9d1d9; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            display: flex; flex-direction: column; align-items: center; padding: 50px;
+            user-select: none;
+        }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(52, 12px); 
+            grid-template-rows: repeat(7, 12px);
+            grid-auto-flow: column;
+            gap: 3px; background: #0d1117; padding: 15px;
+            border: 1px solid #30363d; border-radius: 6px;
+        }
+        .cell { width: 12px; height: 12px; border-radius: 2px; background: #161b22; cursor: crosshair; }
+        .cell:hover { border: 1px solid #8b949e; }
+        
+        .cell[data-level="1"] { background: #0e4429; }
+        .cell[data-level="2"] { background: #006d32; }
+        .cell[data-level="3"] { background: #26a641; }
+        .cell[data-level="4"] { background: #39d353; }
+
+        .controls { margin-top: 30px; text-align: center; }
+        button { 
+            background-color: #238636; color: white; border: 1px solid rgba(240,246,252,0.1);
+            padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer;
+        }
+        button:disabled { background-color: #161b22; color: #484f58; cursor: not-allowed; }
+        .instructions { margin-top: 15px; color: #8b949e; font-size: 13px; line-height: 1.6; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <h1>Contribution Graph Painter</h1>
+    
+    <div class="grid" id="canvas"></div>
+
+    <div class="controls">
+        <button id="submitBtn" onclick="submitArt()">Generate Commits</button>
+        <button onclick="location.reload()" style="background: #30363d; margin-left: 10px;">Clear</button>
+        
+        <div class="instructions">
+            <b>Left-Click & Drag:</b> Paint & Darken<br>
+            <b>Right-Click:</b> Erase (Reset to Empty)
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        let isDrawing = false;
+        for (let x = 0; x < 52; x++) {
+            for (let y = 0; y < 7; y++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                cell.dataset.level = 0;
+
+                cell.onmousedown = (e) => {
+                    isDrawing = true;
+                    paint(cell, e.button === 2);
+                };
+                cell.onmouseenter = (e) => {
+                    if (isDrawing) paint(cell, e.buttons === 2);
+                };
+
+                canvas.appendChild(cell);
+            }
+        }
+
+        window.onmouseup = () => isDrawing = false;
+
+        function paint(cell, erase = false) {
+            let level = parseInt(cell.dataset.level);
+            if (erase) {
+                level = 0;
+            } else {
+                level = level >= 4 ? 4 : level + 1;
+            }
+            cell.dataset.level = level;
+        }
+
+        async function submitArt() {
+            const cells = document.querySelectorAll('.cell');
+            const pixels = [];
+
+            cells.forEach(c => {
+                const level = parseInt(c.dataset.level);
+                if (level > 0) {
+                    const intensityMap = [0, 2, 5, 10, 15]; 
+                    pixels.push({ 
+                        x: c.dataset.x, 
+                        y: c.dataset.y, 
+                        intensity: intensityMap[level] 
+                    });
+                }
+            });
+            
+            if (pixels.length === 0) return alert("Canvas is empty!");
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Writing Commits... (Check Terminal)";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pixels })
+                });
+                const data = await res.json();
+                alert(data.message);
+            } catch (err) {
+                alert("Error: Is the server.js running?");
+            } finally {
+                btn.innerText = "Generate Commits";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
