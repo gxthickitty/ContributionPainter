@@ -1,6 +1,5 @@
 <img width="890" height="362" alt="image" src="https://github.com/user-attachments/assets/545ed7b1-da86-4267-af24-ce40c5f61f6a" />
 
-
 ---
 
 ## Overview
@@ -19,7 +18,7 @@ This guide assumes you want to start completely from scratch, including creating
 2. Click **New repository**.
 3. Give your repository a name, for example: `contribution-art`.
 4. Choose **Public** or **Private**, as you prefer.
-5. **Do NOT** initialize with a README, .gitignore, or license- we will handle the first commit manually.
+5. **Do NOT** initialize with a README, .gitignore, or license - we will handle the first commit manually.
 6. Click **Create repository**.
 
 ---
@@ -51,21 +50,21 @@ This file will be updated repeatedly by the painter script to generate additiona
 
 ---
 
-### 4. Push the Initial Commit
+### 4. Push the Initial Commit Manually
 
-Push the repository to GitHub so your placeholder file exists online:
+You must push the repository **manually via CMD or terminal** so your placeholder file exists on GitHub:
 
 ```bash
 git push origin main
 ```
 
-> Note: If your repository uses `master` instead of `main`, replace `main` with `master`.
+> If your repository uses `master` instead of `main`, replace `main` with `master`.
 
 ---
 
 ### 5. Download or Clone the Painter Tool
 
-You can clone this repository (the one containing `index.html` and `server.js`) somewhere else on your machine:
+Clone this repository (the one containing `index.html` and `server.js`) somewhere else on your machine:
 
 ```bash
 git clone https://github.com/<your-username>/github-contribution-painter.git
@@ -130,6 +129,8 @@ Once your design is ready, click **Generate Commits**. The backend will:
 3. Create commits with the correct date so that your GitHub graph reflects the design.
 4. Use Windows `cmd.exe` to set `GIT_AUTHOR_DATE` and `GIT_COMMITTER_DATE` (Linux/macOS users may need to adjust the commands).
 
+> Note: The painter **does not push the commits automatically**. You must push them manually to GitHub via CMD or terminal.
+
 ---
 
 ### 11. Push Your Art to GitHub
@@ -156,6 +157,7 @@ GIT_AUTHOR_DATE="$date" GIT_COMMITTER_DATE="$date" git commit -am "gxthickitty a
 ```
 
 - The placeholder file (`pt.txt`) can be anything; it’s only used to generate commits.  
+- Always **push manually** after commit generation to update GitHub.
 
 ---
 
@@ -170,8 +172,6 @@ GIT_AUTHOR_DATE="$date" GIT_COMMITTER_DATE="$date" git commit -am "gxthickitty a
 
 ## License
 
-As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.     
-What I do not wish to see is this code to be in any way paid-walled by malicious actors.   
-IT IS MEANT TO BE FREE FOR USE.  
-
-
+As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.
+What I do not wish to see is this code to be in any way paid-walled by malicious actors.
+IT IS MEANT TO BE FREE FOR USE.
