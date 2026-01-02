@@ -172,6 +172,6 @@ GIT_AUTHOR_DATE="$date" GIT_COMMITTER_DATE="$date" git commit -am "gxthickitty a
 
 ## License
 
-As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.
-What I do not wish to see is this code to be in any way paid-walled by malicious actors.
-IT IS MEANT TO BE FREE FOR USE.
+As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.    
+What I do not wish to see is this code to be in any way paid-walled by malicious actors.   
+IT IS MEANT TO BE FREE FOR USE.   
