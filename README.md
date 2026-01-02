@@ -1,6 +1,4 @@
-
-
-<img width="890" height="362" alt="{041F6735-E903-4026-B8B0-467974E39695}" src="https://github.com/user-attachments/assets/b22c3a1e-7e91-4a4b-8b78-a18bc3989b3c" />
+<img width="890" height="362" alt="image" src="https://github.com/user-attachments/assets/545ed7b1-da86-4267-af24-ce40c5f61f6a" />
 
 
 ---
@@ -21,7 +19,7 @@ This guide assumes you want to start completely from scratch, including creating
 2. Click **New repository**.
 3. Give your repository a name, for example: `contribution-art`.
 4. Choose **Public** or **Private**, as you prefer.
-5. **Do NOT** initialize with a README, .gitignore, or license — we will handle the first commit manually.
+5. **Do NOT** initialize with a README, .gitignore, or license- we will handle the first commit manually.
 6. Click **Create repository**.
 
 ---
@@ -171,8 +169,9 @@ GIT_AUTHOR_DATE="$date" GIT_COMMITTER_DATE="$date" git commit -am "gxthickitty a
 ---
 
 ## License
-You're welcome to improve this project as you see fit, however, please mention me in the credits for inspiration / code base. <3
 
----
+As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.     
+What I do not wish to see is this code to be in any way paid-walled by malicious actors.   
+IT IS MEANT TO BE FREE FOR USE.  
 
-With this setup, you can start designing and publishing GitHub contribution art without dealing with fragmented scripts or manual commit creation.
+
