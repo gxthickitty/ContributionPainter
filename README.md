@@ -1,177 +1,84 @@
-<img width="890" height="362" alt="image" src="https://github.com/user-attachments/assets/545ed7b1-da86-4267-af24-ce40c5f61f6a" />
+<img width="890" height="362" alt="GitHub Contribution Painter" src="https://github.com/user-attachments/assets/545ed7b1-da86-4267-af24-ce40c5f61f6a" />
+
+# GitHub Contribution Painter
+Transform your GitHub contribution graph into pixel art directly from your browser. Design on a 52x7 grid, and the tool automatically generates dated commits to paint your graph.
 
 ---
 
-## Overview
-
-GitHub Contribution Painter allows you to "paint" your GitHub contribution graph directly from your browser. You design pixel art on a 52x7 grid, and the backend automatically generates commits for each painted cell, turning your design into actual GitHub activity. This eliminates the need to juggle multiple confusing Python or shell scripts online.
-
----
-
-## Full Step-by-Step Guide
-
-This guide assumes you want to start completely from scratch, including creating a new repository on GitHub.
-
-### 1. Create a New GitHub Repository
-
-1. Go to [GitHub](https://github.com/) and log in.
-2. Click **New repository**.
-3. Give your repository a name, for example: `contribution-art`.
-4. Choose **Public** or **Private**, as you prefer.
-5. **Do NOT** initialize with a README, .gitignore, or license - we will handle the first commit manually.
-6. Click **Create repository**.
+## Prerequisites
+- **Node.js** (v14 or later), [Download here](https://nodejs.org/)
+- **Git** installed and configured
+- A **GitHub account** and a personal access token (optional, for easier pushes)
+- Basic terminal/command line familiarity
 
 ---
 
-### 2. Clone the Repository Locally
+## Quick Start
 
-Open your terminal and run:
-
+### 1. Repository Setup
+Create a **new, empty** GitHub repo (no README, .gitignore, or license). Then:
 ```bash
 git clone https://github.com/<your-username>/<repo-name>.git
 cd <repo-name>
+echo "Art placeholder" > pt.txt
+git add pt.txt && git commit -m "init"
+git push origin main  # or master
 ```
+### 2. Tool Setup
 
-Replace `<your-username>` and `<repo-name>` with your GitHub username and repository name.
-
----
-
-### 3. Add a Placeholder File
-
-Git requires at least one file to create commits. We'll use a simple text file called `pt.txt`:
-
+Clone and install the painter:
 ```bash
-echo "Placeholder for GitHub art commits" > pt.txt
-git add pt.txt
-git commit -m "Initial commit with placeholder file"
-```
-
-This file will be updated repeatedly by the painter script to generate additional commits.
-
----
-
-### 4. Push the Initial Commit Manually
-
-You must push the repository **manually via CMD or terminal** so your placeholder file exists on GitHub:
-
-```bash
-git push origin main
-```
-
-> If your repository uses `master` instead of `main`, replace `main` with `master`.
-
----
-
-### 5. Download or Clone the Painter Tool
-
-Clone this repository (the one containing `index.html` and `server.js`) somewhere else on your machine:
-
-```bash
-git clone https://github.com/<your-username>/github-contribution-painter.git
+git clone https://github.com/<painter-repo-owner>/github-contribution-painter.git
 cd github-contribution-painter
-```
-
----
-
-### 6. Install Dependencies
-
-This project requires Node.js. Install the necessary packages:
-
-```bash
 npm install express moment
 ```
 
----
+### 3. Run & Paint
 
-### 7. Start the Painter Server
-
-Run the server:
-
+Start the server:
 ```bash
 node server.js
 ```
+Open ``http://localhost:3000`` in your browser.
 
-You should see a message like:
+    Left-click/drag: Paint (intensity 1–4)
 
-```
-Server running at http://localhost:3000
-```
+    Right-click: Erase
 
----
+    Clear: Reset canvas
 
-### 8. Open the Painter in Your Browser
+Intensity levels:
 
-Navigate to `http://localhost:3000`. You will see a 52x7 grid representing your GitHub contributions for the past year.
+    1 = 2 commits
 
----
+    2 = 5 commits
 
-### 9. Paint Your Contribution Art
+    3 = 10 commits
 
-- **Left-click & drag**: Paint and increase intensity.  
-- **Right-click**: Erase a cell.  
-- **Clear button**: Reset the canvas to empty.
+    4 = 15 commits
 
-Intensity levels correspond to GitHub's contribution shades:
+### 4. Generate & Push
 
-- Level 1: 2 commits  
-- Level 2: 5 commits  
-- Level 3: 10 commits  
-- Level 4: 15 commits  
-
----
-
-### 10. Generate Commits
-
-Once your design is ready, click **Generate Commits**. The backend will:
-
-1. Loop through all painted cells.
-2. Modify `pt.txt` for each commit.
-3. Create commits with the correct date so that your GitHub graph reflects the design.
-4. Use Windows `cmd.exe` to set `GIT_AUTHOR_DATE` and `GIT_COMMITTER_DATE` (Linux/macOS users may need to adjust the commands).
-
-> Note: The painter **does not push the commits automatically**. You must push them manually to GitHub via CMD or terminal.
-
----
-
-### 11. Push Your Art to GitHub
-
-After commit generation completes:
-
+Click Generate Commits – this creates local commits with correct dates.   
+Manually push to GitHub:
 ```bash
+cd ../<your-art-repo>
 git push origin main
 ```
-
-Check your GitHub profile to see your new contribution art!
-
----
-
-### 12. Notes & Tips
-
-- **Repository must have at least one file** (`pt.txt`) before generating commits.  
-- Ensure your Git working directory is clean; avoid other uncommitted changes.  
-- Windows users: Uses `cmd.exe` for environment variables.  
-- Linux/macOS users: Adjust `execSync` commands:
-
-```bash
-GIT_AUTHOR_DATE="$date" GIT_COMMITTER_DATE="$date" git commit -am "gxthickitty art contribution"
-```
-
-- The placeholder file (`pt.txt`) can be anything; it’s only used to generate commits.  
-- Always **push manually** after commit generation to update GitHub.
+> Commits are not pushed automatically.
 
 ---
+### Notes
 
-## How It Works
+- Uses pt.txt as a placeholder file for commit generation.
+- Windows: Uses cmd.exe for date env vars. Linux/macOS users may need to adjust server.js (see code comments).
+- Keep your art repo clean—no uncommitted changes before generating.
+- The grid represents the past year (52 weeks × 7 days).
 
-- Each grid cell has a **level** 0–4.  
-- Levels map to commit counts `[0, 2, 5, 10, 15]`.  
-- Backend loops through all painted pixels, modifies `pt.txt`, and commits the changes with the correct date.  
-- This automates what would otherwise require multiple Python or shell scripts, making it a one-stop solution for GitHub contribution art.
+### How It Works
 
----
+The backend loops through painted cells, modifies `pt.txt` for each required commit, and uses `GIT_AUTHOR_DATE/GIT_COMMITTER_DATE` to backdate commits. This mimics natural GitHub activity.
 
-## License
 
-As long as you credit me within inspiration/code-base credits, you're welcome to improve and add features as you see fit.    
-What I do not wish to see is this code to be in any way paid-walled by malicious actors.   
-IT IS MEANT TO BE FREE FOR USE.   
+### License
+Free to use and modify as long as you credit the original author. Do not paywall.
